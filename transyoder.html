@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- declare our encoding -->
+<meta charset="UTF-8">
+
+<title>Kanye in Yodish</title>
+
+<!-- load the jQuery library from Google's CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- load our sweet fonts -->
+<link href="https://fonts.googleapis.com/css?family=La+Belle+Aurore|Pangolin|Oswald|Walter+Turncoat&display=swap" rel="stylesheet">
+
+<!-- set up our viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    * {box-sizing: border-box;
+        margin: 0;}
+    header {text-align: center;
+        font-size: 1.6em;}
+    header h1 {margin-bottom: -0.5em;}
+    body {width: 90vw;
+        max-width: 1000px;
+        margin: auto;
+        font-family: Oswald, sans-serif;
+        padding: 1em;
+        background-image: linear-gradient(#9090ee, #02b4ad);
+        background-repeat: no-repeat;
+        height: 100vh;}
+    .row {border: 1px solid black;
+        margin: 1em;}
+    .row::after {display: table;
+        content: "";
+        clear: both;}
+    .col {
+        float: left;
+        padding: 1em;
+        }
+    .left {width: 40%;
+        text-align: right;
+        }
+    .right {width: 60%;
+        text-align: justify;
+        }
+    .col p {font-size: 1.6em;}
+    .kw {font-family: 'La Belle Aurore', cursive;}
+    .yd {font-family: 'Walter Turncoat', cursive;}
+</style>
+</head>
+<body>
+<header>
+    <h1><span class="kw">Kanye</span> -> <span class="yd">Yoda</span></h1>
+    <h5>you're welcome</h5>
+    </header>
+<main>
+    <div class="row">
+        <div class="col left"><h2>What Kanye Says:</h2></div>
+        <div id="msg" class="col right kw"></div>
+    </div>
+    <div class="row">
+        <div class="col left"><h2>What Yoda Says:</h2></div>
+        <div id="yod" class="col right yd"></div>
+    </div>
+</main>
+
+<script>
+
+// run our main function called "translate"  //
+translate();
+
+// declare and define our translate function //
+function translate(){
+    
+    // make a request for a JSON object from kanye.rest, name the object "quote", and perform some tasks to the object //
+    $.getJSON("https://api.kanye.rest/", function (quote){
+    
+    //  show the quote object in the js console //
+    console.log(quote);
+    
+    // declare a variable "mess" to hold the text contents of the quote object //
+    var mess = quote.quote;
+    
+    // encodeURI is a built-in JS function to turn a string into something that can be passed as a valid URL (i.e. encodes special characters that you can't pass in a URL) //
+    encodedMess = encodeURI(mess);
+    
+    // show the URI-encoded quote in the console //
+    console.log(encodedMess);
+
+    // set the inner HTML of element ID=msg to the contents of our "mess" variable (see above) plus some other tags //
+    document.getElementById("msg").innerHTML = "<p>" + mess + "</p>";
+    
+    // make a request for a JSON object from "funtranslations.com" for a yodish translation of our URI-encoded kanye quote, name the object "yodish" and perform some tasks with it //
+    $.getJSON("https://api.funtranslations.com/translate/yoda.json?text="+encodedMess, function (yodish){
+        
+        // show the object "yodish" in the console //
+        console.log(yodish);
+        
+        // declare a variable "yoda" and set it to the translated text content of our "yodish" object //
+        var yoda = yodish.contents.translated;
+        
+        // display this new variable in the console //
+        console.log(yoda)
+        
+        // set the inner HTML of element ID=yod to the contents of our "yoda" variable plus some other tags //
+        document.getElementById("yod").innerHTML = "<p>" + yoda + "</p>";
+})
+});
+};
+</script>
+
+</body>
+</html>
+
