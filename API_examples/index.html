@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<!-- load the jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!--  fancy fonts from Google -->
+<link href="https://fonts.googleapis.com/css?family=La+Belle+Aurore|Pangolin|Oswald|Walter+Turncoat&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    * {box-sizing: border-box;
+        margin: 0;}
+    header {text-align: center;
+        font-size: 1.6em;}
+    body {width: 90vw;
+        max-width: 1000px;
+        margin: auto;
+        padding: 1em;
+        background-size: cover;
+        height: 100vh;}
+    h1 {text-align: center;
+        text-shadow: 5px 5px gray;
+        font-family: Walter Turncoat, cursive;}
+</style>
+</head>
+<body>
+<header>
+<h1 id="txt">placeholder</h1>
+</header>
+
+<script>
+//  run the main function, where we pick a random category, then request a corresponding Chuck Norris joke and background image   //
+makeIt();
+
+//  declare and define the function 'makeIt'  //
+function makeIt(){
+    
+    // make an array of all the joke categories and pick one at random //
+    const jokeCat =["animal","career","celebrity","dev","explicit","fashion","food","history","money","movie","music","political","religion","science","sport","travel"];
+    function randomNumber(max){
+        return Math.floor((Math.random() * max) + 1);
+        }
+    var index = randomNumber(jokeCat.length);
+    var category = jokeCat[index];
+    var bgCat = "";
+    
+    // take the joke category and pair it with a corresponding image category  //
+    switch (category){
+        case 'animal':
+        bgCat = 'animals';
+            break;
+        case 'career':
+        bgCat = 'buildings';    
+            break;
+        case 'celebrity':
+        bgCat = 'people';    
+            break;
+        case 'dev':
+        bgCat = 'computer';   
+            break;
+        case 'explicit':
+        bgCat = 'feelings';
+            break;
+        case 'fashion':
+        bgCat = 'fashion';
+            break;
+        case 'food':
+        bgCat = 'food';    
+            break;
+        case 'history':
+        bgCat = 'industry';    
+            break;
+        case 'money':
+        bgCat = 'business';
+            break;
+        case 'movie':
+        bgCat = 'places';
+            break;
+        case 'music':
+        bgCat = 'music';    
+            break;
+        case 'political':
+        bgCat = 'nature';    
+            break;
+        case 'religion':
+        bgCat = 'religion';
+            break;
+        case 'science':
+        bgCat = 'science';
+            break;
+        case 'sport':
+        bgCat = 'sports';   
+            break;
+        case 'travel':
+        bgCat = 'travel';
+            break;}
+    
+    // request a random picture from the selected category (bgCat) //
+    const picApiKey = '15392234-f51d242c83b3bfc8c2cc59bd7';
+    $.getJSON("https://pixabay.com/api/?key="+picApiKey+"&category="+bgCat+"&image_type=photo", function (picData){
+        var bgIndex = randomNumber(20);
+        bgIndex = bgIndex - 1;
+        bgObject = picData.hits[bgIndex].webformatURL;
+        
+        //set the retrieved image as the background for the document's body //
+        document.body.style.backgroundImage = "url('"+bgObject+"')";
+    });
+
+    //  request a Chuck Norris joke from the category we picked earlier  //
+    $.getJSON("https://api.chucknorris.io/jokes/random?category="+category, function (data){
+        var joke = data.value;
+        
+        // display the joke in the ID=txt document element //
+        document.getElementById('txt').innerHTML = joke;
+    });
+};
+</script>
+
+</body>
+</html>
+
