@@ -52,20 +52,22 @@
 </header>
 
 <script>
-//  run the main function, to get data from one API, send it to another and display the result  //
+//  run the main function, where we pick a random category, then request a corresponding Chuck Norris joke and background image   //
 makeIt();
 
-//  declare and define the function 'translate'  //
+//  declare and define the function 'makeIt'  //
 function makeIt(){
+    
+    // make an array of all the joke categories and pick one at random //
     const jokeCat =["animal","career","celebrity","dev","explicit","fashion","food","history","money","movie","music","political","religion","science","sport","travel"];
     function randomNumber(max){
         return Math.floor((Math.random() * max) + 1);
         }
     var index = randomNumber(jokeCat.length);
-    console.log(jokeCat[index]);
-    console.log(jokeCat.length);
     var category = jokeCat[index];
     var bgCat = "";
+    
+    // take the joke category and pair it with a corresponding image category  //
     switch (category){
         case 'animal':
         bgCat = 'animals';
@@ -114,25 +116,24 @@ function makeIt(){
             break;
         case 'travel':
         bgCat = 'travel';
-            break;
-    }
+            break;}
+    
+    // request a random picture from the selected category (bgCat) //
     const picApiKey = '15392234-f51d242c83b3bfc8c2cc59bd7';
     $.getJSON("https://pixabay.com/api/?key="+picApiKey+"&category="+bgCat+"&image_type=photo", function (picData){
-        console.log(bgCat);
-        console.log(picData);
         var bgIndex = randomNumber(20);
         bgIndex = bgIndex - 1;
-        console.log(bgIndex);
         bgObject = picData.hits[bgIndex].webformatURL;
-        console.log(bgObject);
+        
+        //set the retrieved image as the background for the document's body //
         document.body.style.backgroundImage = "url('"+bgObject+"')";
     });
 
-//  pass a request and function to the jQuery getJSON method. object inside the function call is the JSON object received from the API, in this case, I call it 'kwQuote'  //
+    //  request a Chuck Norris joke from the category we picked earlier  //
     $.getJSON("https://api.chucknorris.io/jokes/random?category="+category, function (data){
-
         var joke = data.value;
-        console.log(joke);
+        
+        // display the joke in the ID=txt document element //
         document.getElementById('txt').innerHTML = joke;
     });
 };
