@@ -100,6 +100,7 @@ function makeIt(){
     const picApiKey = '15392234-f51d242c83b3bfc8c2cc59bd7';
     $.getJSON("https://pixabay.com/api/?key="+picApiKey+"&category="+bgCat+"&image_type=photo", function (picData){
         var bgIndex = randomNumber(20);
+        console.log(picData);
         bgIndex = bgIndex - 1;
         bgObject = picData.hits[bgIndex].webformatURL;
         
@@ -110,6 +111,7 @@ function makeIt(){
     //  request a Chuck Norris joke from the category we picked earlier  //
     $.getJSON("https://api.chucknorris.io/jokes/random?category="+category, function (data){
         var joke = data.value;
+        console.log(data);
         
         // display the joke in the ID=txt document element //
         document.getElementById('txt').innerHTML = joke;
